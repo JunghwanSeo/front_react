@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useCallback, useReducer} from "react";
+import React, {useEffect, useRef, useCallback, useReducer, useMemo} from "react";
 import Editor from "./Editor";
 import List from "./List";
 import "../css/App.css"
@@ -22,6 +22,9 @@ const reducer = (state, action) => {
         default : return state;
     }
 }
+
+export const DiaryStateContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
 
 function App() {
     const [data, dispatch] = useReducer(reducer, []);
@@ -87,11 +90,21 @@ function App() {
         });
     }, []);
 
+    const memoizedDispatches = useMemo(() => {
+        return {onCreate, onUpdate, onDelete}
+    }, [])
+
     return (
-        <div className="container">
-            <Editor onCreate={onCreate} />
-            <List onDelete={onDelete} onUpdate={onUpdate} diaryList={data}/>
-        </div>
+        // provider 가 변경되면 하위 컴포넌트들이 전부 리렌터링 됨
+        // 하나의 provider 에 변경 기준이 다른 값 여러개 묶기 ㄴㄴ
+        <DiaryStateContext.Provider value={data}>
+            <DiaryDispatchContext.Provider value={memoizedDispatches}>
+                <div className="container">
+                    <Editor />
+                    <List />
+                </div>
+            </DiaryDispatchContext.Provider>
+        </DiaryStateContext.Provider>
     );
 }
 

@@ -1,7 +1,10 @@
 import '../css/DiaryApp.css';
-import React, {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
+import {DiaryDispatchContext} from "./App";
 
-function Editor({onCreate}){
+function Editor(){
+    const {onCreate} = useContext(DiaryDispatchContext);
+
     /* 아래 처럼 속성 값 하나하나를 선언할 수도 있지만
         const [author, setAuthor] = useState("");
      * 아래 처럼 그룹으로 묶어서 상태관리가 가능함.
