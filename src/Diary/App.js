@@ -1,10 +1,30 @@
-import React, {useState, useEffect, useRef, useCallback} from "react";
+import React, {useEffect, useRef, useCallback, useReducer} from "react";
 import Editor from "./Editor";
 import List from "./List";
 import "../css/App.css"
 
+// switch...?
+// 를 사용하는게 레퍼런스네..? https://ko.reactjs.org/docs/hooks-reference.html#usereducer
+const reducer = (state, action) => {
+    switch(action.type){
+        case "init" : {
+            return action.data;
+        }
+        case "create" : {
+            return [action.data, ...state];
+        }
+        case "update" : {
+            return state.map((diary) => diary.id === action.data.targetId ? {...diary, content: action.data.newContent} : diary);
+        }
+        case "delete" : {
+            return state.filter((diary) => diary.id !== action.data)
+        }
+        default : return state;
+    }
+}
+
 function App() {
-    const [data, setData] = useState([]);
+    const [data, dispatch] = useReducer(reducer, []);
 
     const itemId = useRef(0);
 
@@ -22,13 +42,14 @@ function App() {
             }
         })
 
-        setData(initData);
+        dispatch({type: "init", data: initData})
     };
 
     useEffect(() => {
         getData();
     }, [])
 
+    // useMemo 와 동일하게 작동을 하지만 변수가 아닌 함수를 return 하는 점에서 차이가 있음
     const onCreate = useCallback((title, author, content, emotion) => {
         const created = new Date();
         const newItem = {
@@ -39,22 +60,32 @@ function App() {
             created,
             id: itemId.current,
         };
+        dispatch({
+            type: "create",
+            data: newItem
+        });
+
         itemId.current += 1;
-        setData((data) => [newItem, ...data]);
 
         alert("저장되었습니다.");
     }, []);
 
-    const onDelete = (targetId) => {
-        const newDiary = data.filter((diary) => diary.id !== targetId);
-        setData(newDiary);
-    };
+    const onDelete = useCallback((targetId) => {
+        dispatch({
+            type: "delete",
+            data: targetId
+        });
+    }, []);
 
-    const onUpdate = (targetId, newContent) =>{
-        setData(
-            data.map((diary) => diary.id === targetId ? {...diary, content: newContent} : diary)
-        );
-    };
+    const onUpdate = useCallback((targetId, newContent) =>{
+        dispatch({
+            type: "update",
+            data: {
+                targetId: targetId,
+                newContent: newContent
+            }
+        });
+    }, []);
 
     return (
         <div className="container">
