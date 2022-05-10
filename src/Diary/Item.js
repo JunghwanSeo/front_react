@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 
 const Item = ({onDelete, onUpdate, item}) => {
     const [isEdit, setIsEdit] = useState(false);
@@ -68,4 +68,4 @@ const Item = ({onDelete, onUpdate, item}) => {
     );
 }
 
-export default Item;
+export default React.memo(Item);
