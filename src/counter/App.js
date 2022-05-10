@@ -1,7 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from '../logo.svg';
+import '../css/App.css';
+import Counter from "./Counter";
 
 function App() {
+  const countProps = {
+    "init": 10,
+    "gap": 1
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +23,7 @@ function App() {
         >
           Learn React
         </a>
+        <Counter {...countProps}/>
       </header>
     </div>
   );
