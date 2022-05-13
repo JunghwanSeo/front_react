@@ -1,10 +1,14 @@
 import logo from '../logo.svg';
 import '../css/App.css';
 import Counter from "./Counter";
+import {useParams} from "react-router-dom";
 
-function App() {
+function CounterHome() {
+  const {id} = useParams();
+  const init = initData(id);
+
   const countProps = {
-    "init": 10,
+    "init": init,
     "gap": 1
   };
 
@@ -12,21 +16,18 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
         <Counter {...countProps}/>
       </header>
     </div>
   );
 }
 
-export default App;
+const initData = (id) => {
+  if(id === undefined || isNaN(id)){
+    return 100;
+  }
+
+  return Number(id);
+}
+
+export default CounterHome;

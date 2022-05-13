@@ -1,6 +1,6 @@
-import '../css/DiaryApp.css';
+import '../css/App.css';
 import React, {useContext, useRef, useState} from "react";
-import {DiaryDispatchContext} from "./App";
+import {DiaryDispatchContext} from "./DiaryHome";
 
 function Editor(){
     const {onCreate} = useContext(DiaryDispatchContext);

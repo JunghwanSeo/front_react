@@ -26,7 +26,7 @@ const reducer = (state, action) => {
 export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 
-function App() {
+function DiaryHome() {
     const [data, dispatch] = useReducer(reducer, []);
 
     const itemId = useRef(0);
@@ -99,7 +99,7 @@ function App() {
         // 하나의 provider 에 변경 기준이 다른 값 여러개 묶기 ㄴㄴ
         <DiaryStateContext.Provider value={data}>
             <DiaryDispatchContext.Provider value={memoizedDispatches}>
-                <div className="container">
+                <div className="App">
                     <Editor />
                     <List />
                 </div>
@@ -108,4 +108,4 @@ function App() {
     );
 }
 
-export default App;
+export default DiaryHome;

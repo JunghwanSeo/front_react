@@ -1,6 +1,6 @@
 import Item from "./Item";
 import {useContext} from "react";
-import {DiaryStateContext} from "./App";
+import {DiaryStateContext} from "./DiaryHome";
 
 const List = () => {
     const diaryList = useContext(DiaryStateContext);
