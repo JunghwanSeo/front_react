@@ -8,17 +8,15 @@ import TodoHome from "./todo/TodoHome";
 
 function App(){
     return (
-        <BrowserRouter>
-            <div>
-                <AppNavigator />
-                <Routes>
-                    <Route path="/diary" element={<DiaryHome />} />
-                    <Route path="/counter/:id" element={<CounterHome />} />
-                    <Route path="/counter" element={<CounterHome />}/>
-                    <Route path="/" element={<TodoHome />} />
-                </Routes>
-            </div>
-        </BrowserRouter>
+        <div>
+            <AppNavigator />
+            <Routes>
+                <Route path="/diary" element={<DiaryHome />} />
+                <Route path="/counter/:id" element={<CounterHome />} />
+                <Route path="/counter" element={<CounterHome />}/>
+                <Route path="/" element={<TodoHome />} />
+            </Routes>
+        </div>
     );
 }
 
